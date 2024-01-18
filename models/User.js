@@ -7,8 +7,7 @@ const {Schema} = mongoose;
         password:{
             type:String,
             required: false,
-        },
-        
+        },        
           phoneNumber:{
             type:String,
             unique:true,
@@ -17,12 +16,12 @@ const {Schema} = mongoose;
           PublicKey:{
             type:String,
             unique:false,
-            required:false,
+            required:true,
         },
         PrivateKey:{
             type:String,
             unique:false,
-            required:false,
+            required:true,
         },
 
     },
