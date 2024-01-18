@@ -20,9 +20,9 @@ const registerUser = asyncHandler(async (req, res) => {
     const hashPassword = await bcrypt.hash(password,5);
     const data = new User({
       password: hashPassword,
-      privateKey: privateKey,
-      publicKey: publicKey,
       phoneNumber: phoneNumber,
+      publicKey: publicKey,
+      privateKey:privateKey
     });
 
     try {
