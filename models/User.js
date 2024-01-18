@@ -15,12 +15,12 @@ const {Schema} = mongoose;
         },
           PublicKey:{
             type:String,
-            unique:false,
+            unique:true,
             required:true,
         },
         PrivateKey:{
             type:String,
-            unique:false,
+            unique:true,
             required:true,
         },
 
