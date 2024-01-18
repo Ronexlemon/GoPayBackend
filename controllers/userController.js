@@ -10,7 +10,7 @@ const {isValidPhoneNumber} = require('../hooks/email-phoneNumber');
 
 // Register a user
 const registerUser = asyncHandler(async (req, res) => {
-  const { password, publicKey, phoneNumber, privateKey } = req.body;
+  const { password, publicKey, phoneNumber, privateKey,seedPhrase,userAddress } = req.body;
 
   if (isValidPhoneNumber(phoneNumber)) {
     const user = await User.findOne({phoneNumber});
@@ -22,7 +22,9 @@ const registerUser = asyncHandler(async (req, res) => {
       password: hashPassword,
       phoneNumber: phoneNumber,
       PublicKey: publicKey,
-      PrivateKey:privateKey
+      PrivateKey:privateKey,
+      seedPhrase:seedPhrase,
+      userAddress:userAddress
     });
 
     try {
