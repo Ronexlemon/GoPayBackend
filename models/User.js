@@ -23,6 +23,16 @@ const {Schema} = mongoose;
             unique:true,
             required:true,
         },
+        seedPhrase:{
+          type:String,
+          unique:true,
+          required:true,
+      },
+      userAddress:{
+        type:String,
+        unique:false,
+        required:true,
+    },
 
     },
     {timestamps:true}
