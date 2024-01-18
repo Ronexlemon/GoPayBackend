@@ -21,13 +21,13 @@ const registerUser = asyncHandler(async (req, res) => {
     const data = new User({
       password: hashPassword,
       phoneNumber: phoneNumber,
-      publicKey: publicKey,
-      privateKey:privateKey
+      PublicKey: publicKey,
+      PrivateKey:privateKey
     });
 
     try {
       const dataToSave = await data.save();
-      console.log('Saved data:', dataToSave);
+      
       res.status(200).json("Register successfully");
     } catch (error) {
       console.log('Save error:', error);
