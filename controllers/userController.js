@@ -60,10 +60,10 @@ const loginUser= asyncHandler(async (req, res) => {
             )
         if(isPasswordCorrect){
            
-            res.status(200).json(user);
+           return res.status(200).json({ user: user });
             
         }else{
-            res.status(400).json("Confirm your credentials");
+            return res.status(400).json("Confirm your credentials");
         }};
 
             // If password is valid, send success response
