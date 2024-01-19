@@ -4,7 +4,7 @@ const User = require("../../models/User")
 
 // const mongoose = require('mongoose');
 const {isValidEmail,isValidPhoneNumber} = require("../../hooks/email-phoneNumber");
-const { registerUser, loginUser, currentUser } = require("../../controllers/userController");
+const { registerUser, loginUser, currentUser,addUserUtility } = require("../../controllers/userController");
 const validateToken = require("../../middleWare/validateTokenHandler");
 
 
@@ -17,6 +17,9 @@ router.post("/login",loginUser);
 
 //Get all Method
 router.get('/current',currentUser)
+
+//utility
+router.post('/utility',addUserUtility)
 
 //Get by ID Method
 router.get('/:user_id', async(req, res) => {

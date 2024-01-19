@@ -6,6 +6,8 @@ const jwt = require("jsonwebtoken")
 
 // Import the User model and isValidPhoneNumber function
 const User = require("../models/User");
+
+const Utility = require("../models/Utility")
 const {isValidPhoneNumber} = require('../hooks/email-phoneNumber');
 
 // Register a user
@@ -46,7 +48,8 @@ const loginUser= asyncHandler(async (req, res) => {
 
     if (isValidPhoneNumber(phoneNumber)) {
         try {
-            const user = await User.findOne({ phoneNumber });
+           // const user = await User.findOne({ phoneNumber });
+           const user=  await User.findOne({phoneNumber}).populate("utilityInfo")
 
             if (!user) {
                 return res.status(400).json("Confirm Your details");
@@ -91,4 +94,38 @@ const loginUser= asyncHandler(async (req, res) => {
         }
        
     })
-module.exports = { registerUser,loginUser,currentUser };
+
+
+    //add utility
+    const addUserUtility = asyncHandler(async(req,res)=>{
+      
+      
+      let { phoneNumber,amount,type} = req.body;
+      
+    
+      
+    
+      try{
+        const newUserUtility = new Utility({
+          phoneNumber:phoneNumber,
+          amount:amount,
+          type:type
+        });
+    
+        
+       await newUserUtility.save();
+      
+      
+      await User.findOneAndUpdate({phoneNumber},{$set:{
+        utilityInfo:newUserUtility._id,
+            
+      }})
+    
+      res.status(200).json({message:"update successively"})
+      }catch(error){
+        console.log(error)
+        res.status(400)
+        throw new Error("Failed to Update details",error)
+        
+      }})
+module.exports = { registerUser,loginUser,currentUser,addUserUtility };
