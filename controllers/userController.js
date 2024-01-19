@@ -100,32 +100,39 @@ const loginUser= asyncHandler(async (req, res) => {
     const addUserUtility = asyncHandler(async(req,res)=>{
       
       
-      let { phoneNumber,amount,type} = req.body;
-      
-    
-      
-    
-      try{
-        const newUserUtility = new Utility({
-          phoneNumber:phoneNumber,
-          amount:amount,
-          type:type
-        });
-    
-        
-       await newUserUtility.save();
-      
-      
-      await User.findOneAndUpdate({phoneNumber},{$set:{
-        utilityInfo:newUserUtility._id,
-            
-      }})
-    
-      res.status(200).json({message:"update successively"})
-      }catch(error){
-        console.log(error)
-        res.status(400)
-        throw new Error("Failed to Update details",error)
-        
-      }})
+      let { phoneNumber, amount, type } = req.body;
+
+  try {
+    // Create a new Utility document
+    const newUserUtility = new Utility({
+      phoneNumber: phoneNumber,
+      amount: amount,
+      type: type,
+    });
+
+    // Save the new utility document
+    await newUserUtility.save();
+
+    // Find the user by phoneNumber
+    const user = await User.findOne({ phoneNumber });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Initialize utilityInfo as an array if it's undefined
+    user.utilityInfo = user.utilityInfo || [];
+
+    // Add the utility to the user's utilityInfo array
+    user.utilityInfo.push(newUserUtility._id);
+
+    // Save the updated user document
+    await user.save();
+
+    res.status(200).json({ message: "Utility added successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Failed to add utility", error: error.message });
+  }
+});
 module.exports = { registerUser,loginUser,currentUser,addUserUtility };

@@ -33,12 +33,12 @@ const {Schema} = mongoose;
         unique:false,
         required:true,
     },
-    utilityInfo: {
+    utilityInfo:[ {
       type: Schema.Types.ObjectId,
       ref: "Utility",
       required: false,
       
-    },
+    }]
 
     },
     {timestamps:true}
